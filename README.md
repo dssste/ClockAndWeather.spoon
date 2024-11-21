@@ -7,3 +7,4 @@ hs.loadSpoon("ClockAndWeather"):start({
  	url_append = "models=some_weather_model",
 })
 ```
+![Alt Text](https://github.com/user-attachments/assets/3fa32e9b-c95e-458a-a15c-b06fe1809733)
