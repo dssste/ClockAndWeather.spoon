@@ -12,4 +12,4 @@ hs.loadSpoon("ClockAndWeather"):start({
 
 The weather data is fetched from Open-Meteo every 15 mins. The data may differ from what the OS weather widget displays.
 
-I just make sure not to hard-code sensitive data like latitude and weather model, but everything else needs to be changed inside the script. By default, it draws a rectangle on the top-right of the primary screen, covering the icons originally displayed on the menu bar.
+I just make sure not to hard-code sensitive data like latitude and weather model, ![but everything else needs to be changed inside the script]("https://www.hammerspoon.org/docs/"). By default, it draws a rectangle on the top-right of the primary screen, covering the icons originally displayed on the menu bar. 
