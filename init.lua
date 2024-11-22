@@ -88,10 +88,11 @@ function obj:update_canvas()
 end
 
 function obj:update_weather()
-	local url = "https://api.open-meteo.com/v1/forecast?latitude=" .. self.latitude .. "&longitude=" .. self.longitude .. "&current=temperature_2m,is_day,precipitation,weather_code,wind_speed_10m&timezone=auto&forecast_days=1&" .. self.url_append
+	local url = "https://api.open-meteo.com/v1/forecast?latitude=" .. self.latitude .. "&longitude=" .. self.longitude .. "&current=temperature_2m,is_day,weather_code" .. self.url_append
 	hs.http.asyncGet(url, nil, function(status, response)
 		if status == 400 then
-			print("Error: " .. response)
+			print("url: " .. url)
+			print("error: " .. response)
 			self.weather = "..."
 			return
 		end
@@ -109,7 +110,7 @@ end
 function obj:start(config)
 	self.format = "%a / %b %d / %Y / %I:%M %p / "
 	self.textSize = 14
-	self.width = 620
+	self.width = 370
 	self.height = 24
 
 	self.weather = "..."
@@ -128,6 +129,10 @@ function obj:start(config)
 	self.canvas[1] = {
 		type = "rectangle",
 		action = "fill",
+		roundedRectRadii = {
+			xRadius = 10,
+			yRadius = 10,
+		},
 		fillColor = {red=0.095, green=0.095, blue=0.095},
 	}
 	self.canvas[2] = {
@@ -152,6 +157,37 @@ function obj:start(config)
 	self:update_clock_text()
 	self.canvas:show()
 	self.tick_timer = hs.timer.doEvery(1, function() self:update_clock_text() end)
+end
+
+function obj:_apple_logo_cover(text)
+	if not self._logo_cover_canvas then
+		local mainScreen = hs.screen.primaryScreen()
+		self._logo_cover_canvas = hs.canvas.new(mainScreen:localToAbsolute({
+			x = 0,
+			y = 0,
+			w = 50,
+			h = self.height,
+		}))
+	end
+	self._logo_cover_canvas[1] = {
+		type = "rectangle",
+		action = "fill",
+		roundedRectRadii = {
+			xRadius = 10,
+			yRadius = 10,
+		},
+		fillColor = {red=0.095, green=0.095, blue=0.095},
+	}
+	self._logo_cover_canvas[2] = {
+		type = "text",
+		text = text,
+		textFont = "Inconsolata LGC Nerd Font Mono",
+		textSize = self.textSize,
+		textColor = {hex="#ffffff"},
+		textAlignment = "center",
+	}
+
+	self._logo_cover_canvas:show()
 end
 
 function obj:_ui_test()
